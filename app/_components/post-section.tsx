@@ -1,15 +1,17 @@
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import Link from 'next/link';
 
-export default function Home() {
+export default function PostSection() {
   return (
-    <div className="container py-8">
-      <div className="space-y-8">
-        <h2 className="text-3xl font-bold tracking-tight">About</h2>
-
-        <div className="space-y-4">
-          {/* 블로그 카드 반복 */}
-          {[1, 2, 3].map((i) => (
-            <Card key={i}>
+    <div className="space-y-8">
+      <h2 className="text-3xl font-bold tracking-tight">Posts</h2>
+      <div className="grid gap-4">
+        {[1, 2, 3].map((i) => (
+          <Link href={`/post/${i}`} key={i}>
+            <Card
+              key={i}
+              className="animate-in fade-in slide-in-from-bottom-10 duration-700 ease-in-out"
+            >
               <CardHeader>
                 <CardTitle>블로그 제목 {i}</CardTitle>
                 <CardDescription>
@@ -18,8 +20,8 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
-          ))}
-        </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

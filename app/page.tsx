@@ -1,30 +1,14 @@
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import Link from 'next/link';
+import PostSection from './_components/post-section';
+import TagSection from './_components/tag-section';
 
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="space-y-8">
-        <h2 className="text-3xl font-bold tracking-tight">Posts</h2>
-
-        <div className="grid gap-4">
-          {[1, 2, 3].map((i) => (
-            <Link href={`/${i}`} key={i}>
-              <Card
-                key={i}
-                className="animate-in fade-in slide-in-from-bottom-10 duration-700 ease-in-out"
-              >
-                <CardHeader>
-                  <CardTitle>블로그 제목 {i}</CardTitle>
-                  <CardDescription>
-                    이것은 블로그 포스트에 대한 간단한 설명입니다. 여러 줄의 텍스트가 있을 수
-                    있습니다.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-          ))}
-        </div>
+    <div className="container py-8">
+      <div className="grid grid-cols-[1fr_280px] gap-6">
+        <PostSection />
+        <aside className="h-full">
+          <TagSection />
+        </aside>
       </div>
     </div>
   );
