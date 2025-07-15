@@ -1,25 +1,43 @@
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import PostCard from '@/components/features/post/post-card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import Link from 'next/link';
+import { Post } from '@/types/blog';
 
-export default function PostSection() {
+interface Props {
+  posts: Post[];
+  selectedTag: string;
+}
+
+export default function PostSection({ posts, selectedTag }: Props) {
   return (
     <div className="space-y-8">
-      <h2 className="text-3xl font-bold tracking-tight">Posts</h2>
-      <div className="grid gap-4">
-        {[1, 2, 3].map((i) => (
-          <Link href={`/post/${i}`} key={i}>
-            <Card
-              key={i}
-              className="animate-in fade-in slide-in-from-bottom-10 duration-700 ease-in-out"
-            >
-              <CardHeader>
-                <CardTitle>블로그 제목 {i}</CardTitle>
-                <CardDescription>
-                  이것은 블로그 포스트에 대한 간단한 설명입니다. 여러 줄의 텍스트가 있을 수
-                  있습니다.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+      <div className="flex items-center justify-between">
+        <h2 className="text-3xl font-bold tracking-tight">
+          {selectedTag === 'all' ? 'Posts' : `#${selectedTag}`}
+        </h2>
+        <Select defaultValue="latest">
+          <SelectTrigger className="w-[80px] cursor-pointer border-none p-0 shadow-none focus-visible:border-none focus-visible:ring-0 focus-visible:outline-none">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent
+            align="end"
+            className="min-w-[100px] border-none bg-[var(--primary-foreground)] shadow-none"
+          >
+            <SelectItem value="latest">Latest</SelectItem>
+            <SelectItem value="oldest">Oldest</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div>
+        {posts.map((post, i) => (
+          <Link href={`/post/${post.slug}`} key={post.id}>
+            <PostCard post={post} isLast={i === posts.length - 1} />
           </Link>
         ))}
       </div>
