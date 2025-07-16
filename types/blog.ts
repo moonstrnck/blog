@@ -11,6 +11,7 @@ export interface Post {
   coverImage?: string;
   tags?: string[];
   author?: string;
+  authorImage?: string;
   date?: string;
   modifiedDate?: string;
   slug: string;

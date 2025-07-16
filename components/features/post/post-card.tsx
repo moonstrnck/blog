@@ -1,6 +1,6 @@
 import { Card, CardTitle, CardDescription, CardHeader, CardContent } from '@/components/ui/card';
 import { Post } from '@/types/blog';
-import { format } from 'date-fns';
+import { formatDate } from '@/lib/date';
 import Image from 'next/image';
 
 interface Props {
@@ -24,9 +24,7 @@ export default function PostCard({ post, isLast }: Props) {
               <div className="text-muted-foreground flex items-center gap-x-4 text-sm">
                 <div className="flex items-center gap-x-4">
                   {post.date && (
-                    <time className="text-muted-foreground text-xs">
-                      {format(new Date(post.date), 'yyyy-MM-dd')}
-                    </time>
+                    <time className="text-muted-foreground text-xs">{formatDate(post.date)}</time>
                   )}
                   <div className="flex items-center gap-x-2">
                     {post.tags?.map((tag) => (
