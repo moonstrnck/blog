@@ -199,7 +199,6 @@ export const getPostBySlug = async (
 
   const mdBlocks = await n2m.pageToMarkdown(response.results[0].id);
   const { parent } = n2m.toMarkdownString(mdBlocks);
-
   return {
     markdown: parent,
     post: getPostMetadata(response.results[0] as PageObjectResponse),

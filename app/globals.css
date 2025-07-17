@@ -80,6 +80,9 @@
   --header-height: 3.5rem;
   --sticky-offset: 1.5rem;
   --sticky-top: calc(var(--header-height) + var(--sticky-offset));
+
+  --code-background: #1e1e2e;
+  --code-color: #cdd6f4;
 }
 
 .dark {
@@ -130,4 +133,75 @@
   width: 100%;
 
   font-family: var(--font-geist-sans);
+}
+
+pre {
+  padding: 1rem;
+
+  position: relative; /* for pre-language-label */
+  overflow-x: auto;
+}
+
+.pre-language-label {
+  padding: 0.25rem 0.5rem;
+  color: var(--secondary-foreground);
+  background-color: var(--secondary);
+  box-shadow: 0px 6px 10px -2px rgba(0, 0, 0, 0.1);
+  font-size: 80%;
+
+  border-radius: 0 0 2px 2px;
+
+  position: absolute;
+  top: 0;
+  right: 8%;
+}
+
+.pre-copy-button {
+  padding: 0.2em;
+  background-color: var(--secondary);
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+
+  display: grid;
+  place-items: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: opacity 0.2s ease-in-out;
+}
+
+pre:hover .pre-copy-button {
+  opacity: 1;
+  visibility: visible;
+}
+
+img,
+video {
+  @apply rounded-md;
+}
+
+blockquote p {
+  @apply leading-normal;
+  margin: 0;
+}
+
+.callout p {
+  @apply leading-normal;
+  margin: 0.25em 0;
+}
+
+code:not(pre code) {
+  @apply bg-muted rounded-md px-1 py-0.5;
+  &:after {
+    display: none;
+  }
+  &:before {
+    display: none;
+  }
 }

@@ -26,6 +26,8 @@ const withMDX = createMDX({
   options: {
     // @ts-ignore
     remarkPlugins: [['remarkGfm']],
+    // @ts-ignore
+    rehypePlugins: [['rehype-slug']],
   },
 });
 
