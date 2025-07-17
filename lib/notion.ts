@@ -206,3 +206,23 @@ export const getPostBySlug = async (
 
   // return getPageMetadata(response);
 };
+
+export const getPrevNextPosts = async (
+  currentSlug: string
+): Promise<{
+  prevPost: Post | null;
+  nextPost: Post | null;
+}> => {
+  const allPosts = await getPublishedPosts();
+
+  const currentIndex = allPosts.findIndex((post) => post.slug === currentSlug);
+
+  if (currentIndex === -1) {
+    return { prevPost: null, nextPost: null };
+  }
+
+  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+  return { prevPost, nextPost };
+};

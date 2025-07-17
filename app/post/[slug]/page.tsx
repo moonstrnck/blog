@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
-import { getPostBySlug } from '@/lib/notion';
+import { getPostBySlug, getPrevNextPosts } from '@/lib/notion';
 import { formatDate } from '@/lib/date';
 import { MDXRemote, MDXRemoteOptions } from 'next-mdx-remote-client/rsc';
 import { compile } from '@mdx-js/mdx';
@@ -47,6 +47,7 @@ interface Props {
 export default async function BlogPost({ params }: Props) {
   const { slug } = await params;
   const { markdown, post } = await getPostBySlug(slug);
+  const { prevPost, nextPost } = await getPrevNextPosts(slug);
 
   const { data } = await compile(markdown, {
     rehypePlugins: [...tocPlugins],
@@ -112,33 +113,40 @@ export default async function BlogPost({ params }: Props) {
           <Separator className="my-12" />
           {/* 이전/다음 포스트 네비게이션 */}
           <nav className="grid grid-cols-2 gap-8">
-            <Link href="/blog/previous-post">
-              <Card className="group hover:bg-muted/50 transition-colors">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-medium">
-                    <ChevronLeft className="h-4 w-4" />
-                    <span>시작하기</span>
-                  </CardTitle>
-                  <CardDescription className="line-clamp-2">
-                    Next.js를 시작하는 방법부터 프로젝트 구조, 기본 설정까지 상세히 알아봅니다.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-            <Link href="/blog/next-post" className="text-right">
-              <Card className="group hover:bg-muted/50 transition-colors">
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-end gap-2 text-base font-medium">
-                    <span>심화 가이드</span>
-                    <ChevronRight className="h-4 w-4" />
-                  </CardTitle>
-                  <CardDescription className="line-clamp-2">
-                    Next.js의 고급 기능들을 활용하여 더 나은 웹 애플리케이션을 만드는 방법을
-                    소개합니다.
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+            {prevPost ? (
+              <Link href={`/post/${prevPost.slug}`}>
+                <Card className="group hover:bg-muted/50 shadow-none transition-colors">
+                  <CardHeader className="space-y-2">
+                    <CardTitle className="flex items-center gap-2 text-sm font-medium">
+                      <ChevronLeft className="h-4 w-4" />
+                      <span className="line-clamp-1">{prevPost.title}</span>
+                    </CardTitle>
+                    <CardDescription className="line-clamp-2 text-sm">
+                      {prevPost.description}
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+            ) : (
+              <div />
+            )}
+            {nextPost ? (
+              <Link href={`/post/${nextPost.slug}`} className="text-right">
+                <Card className="group hover:bg-muted/50 shadow-none transition-colors">
+                  <CardHeader className="space-y-2">
+                    <CardTitle className="flex items-center justify-end gap-2 text-sm font-medium">
+                      <span className="line-clamp-1 text-sm">{nextPost.title}</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </CardTitle>
+                    <CardDescription className="line-clamp-2 text-sm">
+                      {nextPost.description}
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+            ) : (
+              <div />
+            )}
           </nav>
         </section>
         <aside className="relative h-full">
