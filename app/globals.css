@@ -185,3 +185,13 @@ img,
 video {
   @apply rounded-md;
 }
+
+blockquote p {
+  @apply leading-normal;
+  margin: 0;
+}
+
+.callout p {
+  @apply leading-normal;
+  margin: 0.25em 0;
+}

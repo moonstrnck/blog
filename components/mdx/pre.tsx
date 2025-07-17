@@ -9,7 +9,7 @@ const Pre = (props: React.ComponentPropsWithoutRef<'pre'>) => {
   const preRef = useRef<ElementRef<'pre'>>(null);
   const [copied, setCopied] = useState(false);
 
-  const { className, children, ...rest } = props;
+  const { children, ...rest } = props;
 
   const language = (rest as { 'data-language': string })['data-language'];
 

@@ -1,9 +1,9 @@
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { MDXComponents } from 'next-mdx-remote-client/rsc';
 
 import Pre from './pre';
+import { Blockquote } from './blockquote';
 
 export const components: MDXComponents = {
   strong: (props: React.ComponentPropsWithoutRef<'strong'>) => (
@@ -15,4 +15,5 @@ export const components: MDXComponents = {
   Image,
   Link,
   pre: Pre,
+  blockquote: Blockquote,
 };
