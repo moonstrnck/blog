@@ -10,6 +10,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const { tag } = await searchParams;
   const selectedTag = tag || 'all';
   const [posts, tags] = await Promise.all([getPublishedPosts(selectedTag), getTags()]);
+
   return (
     <div className="container py-8">
       <div className="grid grid-cols-[1fr_240px] gap-8">

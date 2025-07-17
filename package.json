@@ -28,17 +28,20 @@
     "date-fns": "^4.1.0",
     "lucide-react": "^0.525.0",
     "next": "15.2.5",
-    "next-mdx-remote": "^5.0.0",
+    "next-mdx-remote-client": "^2.1.2",
     "notion-to-md": "^3.1.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "reading-time-estimator": "^1.14.0",
+    "rehype-pre-language": "^1.1.4",
     "rehype-pretty-code": "^0.14.1",
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
     "shiki": "^3.8.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "unified": "^11.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -6,16 +6,11 @@ import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/ca
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import { getPostBySlug } from '@/lib/notion';
 import { formatDate } from '@/lib/date';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import rehypeSanitize from 'rehype-sanitize';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
-import rehypePrettyCode from 'rehype-pretty-code';
-import rehypeSlug from 'rehype-slug';
-import withSlugs from 'rehype-slug';
-import withToc from '@stefanprobst/rehype-extract-toc';
-import withTocExport from '@stefanprobst/rehype-extract-toc/mdx';
+import { MDXRemote, MDXRemoteOptions } from 'next-mdx-remote-client/rsc';
 import { compile } from '@mdx-js/mdx';
+import { plugins, tocPlugins } from '@/lib/mdx';
+import { readingTime } from 'reading-time-estimator';
+import { components } from '@/components/mdx';
 
 interface TocEntry {
   value: string;
@@ -54,18 +49,23 @@ export default async function BlogPost({ params }: Props) {
   const { markdown, post } = await getPostBySlug(slug);
 
   const { data } = await compile(markdown, {
-    rehypePlugins: [
-      withSlugs,
-      rehypeSanitize,
-      rehypeRaw,
-      rehypeSlug,
-      rehypePrettyCode,
-      withToc,
-      withTocExport,
-      /** Optionally, provide a custom name for the export. */
-      // [withTocExport, { name: 'toc' }],
-    ],
+    rehypePlugins: [...tocPlugins],
   });
+
+  const options: MDXRemoteOptions = {
+    disableImports: true, // import statements in MDX don't work in pages router
+    parseFrontmatter: true,
+    scope: {
+      readingTime: readingTime(markdown, 100).text,
+      props: { foo: 'props in scope is working' },
+    },
+    vfileDataIntoScope: 'toc', // the "remark-flexible-toc" plugin produces vfile.data.toc
+    mdxOptions: {
+      // format,
+      ...plugins,
+      // remarkRehypeOptions: format === 'md' ? remarkRehypeOptions : undefined,
+    },
+  };
 
   return (
     <article className="container py-12">
@@ -100,22 +100,14 @@ export default async function BlogPost({ params }: Props) {
               )}
               <div className="flex items-center gap-2">
                 <span>·</span>
-                <span>5 min read</span>
+                <span>{readingTime(markdown, 100).text}</span>
               </div>
             </div>
           </div>
           <Separator className="mt-6 mb-12" />
           {/* 블로그 본문 */}
           <div className="prose prose-slate prose-sm dark:prose-invert prose-headings:scroll-mt-[var(--header-height)] max-w-none">
-            <MDXRemote
-              source={markdown}
-              options={{
-                mdxOptions: {
-                  remarkPlugins: [remarkGfm],
-                  rehypePlugins: [rehypeSanitize, rehypePrettyCode, rehypeRaw, rehypeSlug],
-                },
-              }}
-            />
+            <MDXRemote source={markdown} options={options} components={components} />
           </div>
           <Separator className="my-12" />
           {/* 이전/다음 포스트 네비게이션 */}
@@ -151,8 +143,8 @@ export default async function BlogPost({ params }: Props) {
         </section>
         <aside className="relative h-full">
           <div className="sticky top-[var(--sticky-top)]">
-            <div className="border-border space-y-4 rounded-md border p-6">
-              <h3 className="text-md font-medium">Table of Contents</h3>
+            <div className="space-y-4 rounded-md p-6">
+              <h3 className="text-md font-medium">On this page</h3>
               <nav className="space-y-3 text-sm">
                 {data?.toc?.map((item: TocEntry) => (
                   <TableOfContentsLink key={item.id} item={item} />
