@@ -114,7 +114,7 @@ export default async function BlogPost({ params }: Props) {
           {/* 이전/다음 포스트 네비게이션 */}
           <nav className="grid grid-cols-2 gap-8">
             {prevPost ? (
-              <Link href={`/post/${prevPost.slug}`}>
+              <Link href={`/posts/${prevPost.slug}`}>
                 <Card className="group hover:bg-muted/50 shadow-none transition-colors">
                   <CardHeader className="space-y-2">
                     <CardTitle className="flex items-center gap-2 text-sm font-medium">
@@ -131,7 +131,7 @@ export default async function BlogPost({ params }: Props) {
               <div />
             )}
             {nextPost ? (
-              <Link href={`/post/${nextPost.slug}`} className="text-right">
+              <Link href={`/posts/${nextPost.slug}`} className="text-right">
                 <Card className="group hover:bg-muted/50 shadow-none transition-colors">
                   <CardHeader className="space-y-2">
                     <CardTitle className="flex items-center justify-end gap-2 text-sm font-medium">

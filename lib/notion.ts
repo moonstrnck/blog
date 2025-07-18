@@ -11,7 +11,25 @@ export const notion = new Client({
 });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
-export const getPublishedPosts = async (tag?: string): Promise<Post[]> => {
+interface GetPublishedPostsPrams {
+  tag?: string;
+  sort?: string;
+  pageSize?: number;
+  startCursor?: string;
+}
+
+interface GetPublishedPostsResponse {
+  posts: Post[];
+  hasNextPage: boolean;
+  nextCursor: string | null;
+}
+
+export const getPublishedPosts = async ({
+  tag,
+  sort,
+  pageSize = 5,
+  startCursor,
+}: GetPublishedPostsPrams): Promise<GetPublishedPostsResponse> => {
   const response = await notion.databases.query({
     database_id: process.env.NOTION_DATABASE_ID!,
     filter: {
@@ -41,62 +59,26 @@ export const getPublishedPosts = async (tag?: string): Promise<Post[]> => {
     sorts: [
       {
         property: 'Date',
-        direction: 'descending',
+        direction: sort === 'latest' ? 'descending' : 'ascending',
       },
     ],
+    page_size: pageSize,
+    start_cursor: startCursor,
   });
 
-  return response.results
+  const posts = response.results
     .filter((page): page is PageObjectResponse => 'properties' in page)
-    .map((page) => {
-      const { properties } = page;
+    .map(getPostMetadata);
 
-      const getCoverImage = (cover: PageObjectResponse['cover']) => {
-        if (!cover) return '';
-
-        switch (cover.type) {
-          case 'external':
-            return cover.external.url;
-          case 'file':
-            return cover.file.url;
-          default:
-            return '';
-        }
-      };
-
-      return {
-        id: page.id,
-        title:
-          properties.Title.type === 'title' ? (properties.Title.title[0]?.plain_text ?? '') : '',
-        description:
-          properties.Description.type === 'rich_text'
-            ? (properties.Description.rich_text[0]?.plain_text ?? '')
-            : '',
-        coverImage: getCoverImage(page.cover),
-        tags:
-          properties.Tags.type === 'multi_select'
-            ? properties.Tags.multi_select.map((tag) => tag.name)
-            : [],
-        author:
-          properties.Author.type === 'people'
-            ? ((properties.Author.people[0] as UserObjectResponse)?.name ?? '')
-            : '',
-        authorImage:
-          properties.Author.type === 'people'
-            ? ((properties.Author.people[0] as UserObjectResponse)?.avatar_url ?? '')
-            : '',
-        date: properties.Date.type === 'date' ? (properties.Date.date?.start ?? '') : '',
-        modifiedDate: page.last_edited_time,
-        slug:
-          properties.Slug.type === 'rich_text'
-            ? (properties.Slug.rich_text[0]?.plain_text ?? page.id)
-            : page.id,
-      };
-    });
+  return {
+    posts,
+    hasNextPage: response.has_more,
+    nextCursor: response.next_cursor,
+  };
 };
 
 export const getTags = async (): Promise<TagFilterItem[]> => {
-  const posts = await getPublishedPosts();
+  const { posts } = await getPublishedPosts({ pageSize: 100 });
 
   const tagCount = posts.reduce(
     (acc, post) => {
@@ -203,8 +185,6 @@ export const getPostBySlug = async (
     markdown: parent,
     post: getPostMetadata(response.results[0] as PageObjectResponse),
   };
-
-  // return getPageMetadata(response);
 };
 
 export const getPrevNextPosts = async (
@@ -213,7 +193,7 @@ export const getPrevNextPosts = async (
   prevPost: Post | null;
   nextPost: Post | null;
 }> => {
-  const allPosts = await getPublishedPosts();
+  const { posts: allPosts } = await getPublishedPosts({ pageSize: 100 });
 
   const currentIndex = allPosts.findIndex((post) => post.slug === currentSlug);
 
