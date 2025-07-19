@@ -7,22 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePostFilter } from '@/store/use-post-filter';
 
 export default function SortSelect() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const { sortOrder, setSortOrder } = usePostFilter();
 
-  const sort = searchParams.get('sort') || 'latest';
-
-  const handleSort = (value: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('sort', value);
-    router.push(`?${params.toString()}`);
+  const handleSort = (value: 'latest' | 'oldest') => {
+    setSortOrder(value);
   };
 
   return (
-    <Select value={sort} defaultValue="latest" onValueChange={handleSort}>
+    <Select value={sortOrder} defaultValue="latest" onValueChange={handleSort}>
       <SelectTrigger className="w-[80px] cursor-pointer border-none p-0 shadow-none focus-visible:border-none focus-visible:ring-0 focus-visible:outline-none">
         <SelectValue placeholder="Sort by" />
       </SelectTrigger>
