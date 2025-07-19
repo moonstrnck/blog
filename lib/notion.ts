@@ -1,35 +1,24 @@
 import { Client } from '@notionhq/client';
-import type { Post, TagFilterItem } from '@/types/blog';
+import type { Post, Tag } from '@/types/blog';
 import type {
   PageObjectResponse,
   UserObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import { NotionToMarkdown } from 'notion-to-md';
+import { POST_CONTENT } from '@/contants';
+import { unstable_cache } from 'next/cache';
 
 export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
-interface GetPublishedPostsPrams {
-  tag?: string;
-  sort?: string;
-  pageSize?: number;
-  startCursor?: string;
-}
+/**
+ * 게시글 목록 조회
+ */
+import { cache } from 'react';
 
-interface GetPublishedPostsResponse {
-  posts: Post[];
-  hasNextPage: boolean;
-  nextCursor: string | null;
-}
-
-export const getPublishedPosts = async ({
-  tag,
-  sort,
-  pageSize = 5,
-  startCursor,
-}: GetPublishedPostsPrams): Promise<GetPublishedPostsResponse> => {
+export const getAllPublishedPosts = cache(async () => {
   const response = await notion.databases.query({
     database_id: process.env.NOTION_DATABASE_ID!,
     filter: {
@@ -37,48 +26,25 @@ export const getPublishedPosts = async ({
       select: {
         equals: 'Published',
       },
-      and: [
-        {
-          property: 'Status',
-          select: {
-            equals: 'Published',
-          },
-        },
-        ...(tag && tag !== 'all'
-          ? [
-              {
-                property: 'Tags',
-                multi_select: {
-                  contains: tag,
-                },
-              },
-            ]
-          : []),
-      ],
     },
     sorts: [
       {
-        property: 'Date',
-        direction: sort === 'latest' ? 'descending' : 'ascending',
+        property: 'CreatedAt',
+        direction: 'descending',
       },
     ],
-    page_size: pageSize,
-    start_cursor: startCursor,
   });
 
-  const posts = response.results
+  return response.results
     .filter((page): page is PageObjectResponse => 'properties' in page)
     .map(getPostMetadata);
+});
 
-  return {
-    posts,
-    hasNextPage: response.has_more,
-    nextCursor: response.next_cursor,
-  };
-};
-
-export const getTags = async (): Promise<TagFilterItem[]> => {
-  const { posts } = await getPublishedPosts({ pageSize: 100 });
+/**
+ * 태그 목록 조회
+ */
+export const getAllTags = cache(async (): Promise<Tag[]> => {
+  const posts = await getAllPublishedPosts();
 
   const tagCount = posts.reduce(
     (acc, post) => {
@@ -90,7 +56,7 @@ export const getTags = async (): Promise<TagFilterItem[]> => {
     {} as Record<string, number>
   );
 
-  const tags: TagFilterItem[] = Object.entries(tagCount).map(([name, count]) => ({
+  const tags: Tag[] = Object.entries(tagCount).map(([name, count]) => ({
     id: name,
     name,
     count,
@@ -106,8 +72,11 @@ export const getTags = async (): Promise<TagFilterItem[]> => {
   const sortedTags = restTags.sort((a, b) => a.name.localeCompare(b.name));
 
   return [allTag, ...sortedTags];
-};
+});
 
+/**
+ * 게시글 메타데이터 조회
+ */
 function getPostMetadata(page: PageObjectResponse): Post {
   const { properties } = page;
 
@@ -144,8 +113,8 @@ function getPostMetadata(page: PageObjectResponse): Post {
       properties.Author.type === 'people'
         ? ((properties.Author.people[0] as UserObjectResponse)?.avatar_url ?? '')
         : '',
-    date: properties.Date.type === 'date' ? (properties.Date.date?.start ?? '') : '',
-    modifiedDate: page.last_edited_time,
+    createdAt: properties.CreatedAt.type === 'date' ? (properties.CreatedAt.date?.start ?? '') : '',
+    modifiedAt: page.last_edited_time,
     slug:
       properties.Slug.type === 'rich_text'
         ? (properties.Slug.rich_text[0]?.plain_text ?? page.id)
@@ -153,47 +122,63 @@ function getPostMetadata(page: PageObjectResponse): Post {
   };
 }
 
-export const getPostBySlug = async (
-  slug: string
-): Promise<{
-  markdown: string;
-  post: Post;
-}> => {
-  const response = await notion.databases.query({
-    database_id: process.env.NOTION_DATABASE_ID!,
-    filter: {
-      and: [
-        {
-          property: 'Slug',
-          rich_text: {
-            equals: slug,
-          },
-        },
-        {
-          property: 'Status',
-          select: {
-            equals: 'Published',
-          },
-        },
-      ],
-    },
-  });
+/**
+ * 게시글 상세 조회
+ */
+export const getPostBySlug = (slug: string) => {
+  const cacheKey = POST_CONTENT(slug);
 
-  const mdBlocks = await n2m.pageToMarkdown(response.results[0].id);
-  const { parent } = n2m.toMarkdownString(mdBlocks);
-  return {
-    markdown: parent,
-    post: getPostMetadata(response.results[0] as PageObjectResponse),
-  };
+  return unstable_cache(
+    async (
+      slug: string
+    ): Promise<{
+      markdown: string;
+      post: Post;
+    }> => {
+      const response = await notion.databases.query({
+        database_id: process.env.NOTION_DATABASE_ID!,
+        filter: {
+          and: [
+            {
+              property: 'Slug',
+              rich_text: {
+                equals: slug,
+              },
+            },
+            {
+              property: 'Status',
+              select: {
+                equals: 'Published',
+              },
+            },
+          ],
+        },
+      });
+
+      const mdBlocks = await n2m.pageToMarkdown(response.results[0].id);
+      const { parent } = n2m.toMarkdownString(mdBlocks);
+      return {
+        markdown: parent,
+        post: getPostMetadata(response.results[0] as PageObjectResponse),
+      };
+    },
+    [cacheKey],
+    {
+      tags: [cacheKey],
+    }
+  )(slug);
 };
 
+/**
+ * 이전, 다음 게시글 조회
+ */
 export const getPrevNextPosts = async (
   currentSlug: string
 ): Promise<{
   prevPost: Post | null;
   nextPost: Post | null;
 }> => {
-  const { posts: allPosts } = await getPublishedPosts({ pageSize: 100 });
+  const allPosts = await getAllPublishedPosts();
 
   const currentIndex = allPosts.findIndex((post) => post.slug === currentSlug);
 

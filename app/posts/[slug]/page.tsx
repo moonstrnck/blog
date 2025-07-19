@@ -4,40 +4,22 @@ import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
-import { getPostBySlug, getPrevNextPosts } from '@/lib/notion';
+import { getPostBySlug, getPrevNextPosts, getAllPublishedPosts } from '@/lib/notion';
 import { formatDate } from '@/lib/date';
 import { MDXRemote, MDXRemoteOptions } from 'next-mdx-remote-client/rsc';
 import { compile } from '@mdx-js/mdx';
 import { plugins, tocPlugins } from '@/lib/mdx';
 import { readingTime } from 'reading-time-estimator';
 import { components } from '@/components/mdx';
+import TableOfContentsLink from './_components/table-of-contents-link';
+import { TocEntry } from '@/types/blog';
 
-interface TocEntry {
-  value: string;
-  depth: number;
-  id?: string;
-  children?: Array<TocEntry>;
-}
+export async function generateStaticParams() {
+  const posts = await getAllPublishedPosts();
 
-function TableOfContentsLink({ item }: { item: TocEntry }) {
-  return (
-    <div className="space-y-2">
-      <Link
-        key={item.id}
-        href={`#${item.id?.replace('user-content-', '')}`}
-        className={`hover:text-foreground text-muted-foreground block font-medium transition-colors`}
-      >
-        {item.value}
-      </Link>
-      {item.children && item.children.length > 0 && (
-        <div className="space-y-2 pl-4">
-          {item.children.map((subItem) => (
-            <TableOfContentsLink key={subItem.id} item={subItem} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }
 
 interface Props {
@@ -93,10 +75,10 @@ export default async function BlogPost({ params }: Props) {
                 )}
                 <span>{post.author}</span>
               </div>
-              {post.date && (
+              {post.createdAt && (
                 <div className="flex items-center gap-2">
                   <span>·</span>
-                  <time className="text-muted-foreground">{formatDate(post.date)}</time>
+                  <time className="text-muted-foreground">{formatDate(post.createdAt)}</time>
                 </div>
               )}
               <div className="flex items-center gap-2">

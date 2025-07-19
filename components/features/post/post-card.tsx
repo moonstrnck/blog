@@ -23,8 +23,10 @@ export default function PostCard({ post, isLast }: Props) {
             <CardContent className="mt-[auto] p-0">
               <div className="text-muted-foreground flex items-center gap-x-4 text-sm">
                 <div className="flex items-center gap-x-4">
-                  {post.date && (
-                    <time className="text-muted-foreground text-xs">{formatDate(post.date)}</time>
+                  {post.createdAt && (
+                    <time className="text-muted-foreground text-xs">
+                      {formatDate(post.createdAt)}
+                    </time>
                   )}
                   <div className="flex items-center gap-x-2">
                     {post.tags?.map((tag) => (
