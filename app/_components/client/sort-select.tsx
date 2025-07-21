@@ -7,10 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { usePostFilter } from '@/store/use-post-filter';
+import { usePostState } from '@/store/use-post-state';
 
 export default function SortSelect() {
-  const { sortOrder, setSortOrder } = usePostFilter();
+  const { sortOrder, setSortOrder } = usePostState();
 
   const handleSort = (value: 'latest' | 'oldest') => {
     setSortOrder(value);
