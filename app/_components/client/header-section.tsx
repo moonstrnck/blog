@@ -1,10 +1,10 @@
 'use client';
 
 import SortSelect from './sort-select';
-import { usePostFilter } from '@/store/use-post-filter';
+import { usePostState } from '@/store/use-post-state';
 
 export default function HeaderSection() {
-  const { selectedTag } = usePostFilter();
+  const { selectedTag } = usePostState();
 
   return (
     <div className="flex items-center justify-between">

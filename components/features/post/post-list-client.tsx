@@ -3,15 +3,17 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import PostCard from './post-card';
-import { usePostFilter } from '@/store/use-post-filter';
+import PostPaginationClient from './post-pagination-client';
+import { usePostState } from '@/store/use-post-state';
 import type { Post } from '@/types/blog';
+import { POST_PER_PAGE } from '@/contants';
 
 interface Props {
   posts: Post[];
 }
 
 export default function PostListClient({ posts }: Props) {
-  const { selectedTag, sortOrder } = usePostFilter();
+  const { selectedTag, sortOrder, currentPage, setCurrentPage } = usePostState();
 
   const filteredAndSortedPosts = useMemo(() => {
     let filtered = posts;
@@ -30,13 +32,34 @@ export default function PostListClient({ posts }: Props) {
     return sorted;
   }, [posts, selectedTag, sortOrder]);
 
+  const totalPages = Math.ceil(filteredAndSortedPosts.length / POST_PER_PAGE);
+
+  const paginatedPosts = useMemo(() => {
+    const startIndex = (currentPage - 1) * POST_PER_PAGE;
+    const endIndex = startIndex + POST_PER_PAGE;
+    return filteredAndSortedPosts.slice(startIndex, endIndex);
+  }, [filteredAndSortedPosts, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <>
-      {filteredAndSortedPosts.map((post, i) => (
-        <Link href={`/posts/${post.slug}`} key={post.id}>
-          <PostCard post={post} isLast={i === filteredAndSortedPosts.length - 1} />
-        </Link>
-      ))}
+      <div className="space-y-8">
+        {paginatedPosts.map((post, i) => (
+          <Link href={`/posts/${post.slug}`} key={post.id}>
+            <PostCard post={post} isLast={i === paginatedPosts.length - 1} />
+          </Link>
+        ))}
+      </div>
+
+      <PostPaginationClient
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 }
