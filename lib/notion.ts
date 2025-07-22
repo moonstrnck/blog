@@ -5,7 +5,7 @@ import type {
   UserObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import { NotionToMarkdown } from 'notion-to-md';
-import { POST_CONTENT } from '@/contants';
+import { POST_CONTENTS } from '@/contants';
 import { unstable_cache } from 'next/cache';
 
 export const notion = new Client({
@@ -126,7 +126,7 @@ function getPostMetadata(page: PageObjectResponse): Post {
  * 게시글 상세 조회
  */
 export const getPostBySlug = (slug: string) => {
-  const cacheKey = POST_CONTENT(slug);
+  const cacheKey = POST_CONTENTS(slug);
 
   return unstable_cache(
     async (

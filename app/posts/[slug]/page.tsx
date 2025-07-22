@@ -54,7 +54,7 @@ export default async function BlogPost({ params }: Props) {
     <article className="container py-12">
       <div className="grid grid-cols-[1fr_240px] gap-8">
         <section>
-          {/* 블로그 헤더 */}
+          {/* header */}
           <div className="space-y-8">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold">{post.title}</h1>
@@ -88,12 +88,12 @@ export default async function BlogPost({ params }: Props) {
             </div>
           </div>
           <Separator className="mt-6 mb-12" />
-          {/* 블로그 본문 */}
+          {/* content */}
           <div className="prose prose-slate prose-sm dark:prose-invert prose-headings:scroll-mt-[var(--header-height)] max-w-none">
             <MDXRemote source={markdown} options={options} components={components} />
           </div>
           <Separator className="my-12" />
-          {/* 이전/다음 포스트 네비게이션 */}
+          {/* prev/next post navigation */}
           <nav className="grid grid-cols-2 gap-8">
             {prevPost ? (
               <Link href={`/posts/${prevPost.slug}`}>
