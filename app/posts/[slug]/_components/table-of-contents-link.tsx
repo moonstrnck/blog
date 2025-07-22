@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { TocEntry } from '@/types/blog';
+import { compile } from '@mdx-js/mdx';
+import { tocPlugins } from '@/lib/mdx';
 
 function TableOfContentsLink({ item }: { item: TocEntry }) {
   return (
@@ -22,4 +24,26 @@ function TableOfContentsLink({ item }: { item: TocEntry }) {
   );
 }
 
-export default TableOfContentsLink;
+async function OnThisPage({ markdown }: { markdown: string }) {
+  const { data } = await compile(markdown, {
+    rehypePlugins: [...tocPlugins],
+  });
+  const toc = data?.toc;
+
+  if (!toc) return null;
+
+  return (
+    <div className="sticky top-[var(--sticky-top)]">
+      <div className="space-y-4 rounded-md p-6">
+        <h3 className="text-md font-medium">On this page</h3>
+        <nav className="space-y-3 text-sm">
+          {toc.map((item: TocEntry) => (
+            <TableOfContentsLink key={item.id} item={item} />
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+export default OnThisPage;

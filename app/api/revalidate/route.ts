@@ -13,8 +13,6 @@ export async function POST(request: NextRequest) {
     return Response.json({
       revalidated: false,
       now: Date.now(),
-      revalidateKey,
-      revalidateKeyFromEnv: process.env.REVALIDATE_KEY,
       message: 'Invalid revalidate key.',
     });
   }

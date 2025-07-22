@@ -70,7 +70,11 @@ function removeEmojiFromFirstChild(children: React.ReactNode): React.ReactNode {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as any);
 
-      return children.map((child, index) => (index === 1 ? modifiedElement : child));
+      return children.map((child, index) => (
+        <React.Fragment key={index}>
+          {index === 1 ? modifiedElement : child}
+        </React.Fragment>
+      ));
     }
   }
 
