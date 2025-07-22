@@ -22,31 +22,24 @@ export default function PostHeader({ post, markdown }: PostHeaderProps) {
           ))}
         </div>
       </div>
-      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-        {post.authorImage && (
-          <Avatar className="h-10 w-10">
-            <AvatarImage
-              src={post.authorImage}
-              alt={post.author}
-              className="h-10 w-10 rounded-full object-cover"
-            />
-          </Avatar>
-        )}
-        <div>
-          <p className="font-medium text-foreground">{post.author}</p>
+      <div className="text-muted-foreground flex gap-2 text-sm">
+        <div className="flex items-center gap-1">
+          {post.authorImage && (
+            <Avatar className="h-5 w-5">
+              <AvatarImage className="rounded-full" src={post.authorImage} />
+            </Avatar>
+          )}
+          <span>{post.author}</span>
+        </div>
+        {post.createdAt && (
           <div className="flex items-center gap-2">
-            <span>{formatDate(post.createdAt || '')}</span>
-            {post.modifiedAt && post.modifiedAt !== post.createdAt && (
-              <>
-                <span>·</span>
-                <span>Updated {formatDate(post.modifiedAt)}</span>
-              </>
-            )}
-            <div className="flex items-center gap-2">
-              <span>·</span>
-              <span>{readingTime(markdown, 100).text}</span>
-            </div>
+            <span>·</span>
+            <time className="text-muted-foreground">{formatDate(post.createdAt)}</time>
           </div>
+        )}
+        <div className="flex items-center gap-2">
+          <span>·</span>
+          <span>{readingTime(markdown, 100).text}</span>
         </div>
       </div>
     </div>

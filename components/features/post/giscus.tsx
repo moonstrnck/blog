@@ -1,8 +1,11 @@
 'use client';
 
 import Giscus from '@giscus/react';
+import { useTheme } from 'next-themes';
 
 export default function CommentsByGiscus() {
+  const { theme } = useTheme();
+
   return (
     <Giscus
       repo="moonstrnck/blog"
@@ -14,7 +17,7 @@ export default function CommentsByGiscus() {
       reactionsEnabled="1"
       emitMetadata="0"
       inputPosition="top"
-      theme="noborder_light"
+      theme={theme === 'dark' ? 'noborder_dark' : 'noborder_light'}
       lang="en"
     />
   );

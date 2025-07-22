@@ -12,7 +12,7 @@ export default function PostCard({ post, isLast }: Props) {
   return (
     <>
       <Card
-        className={`group animate-in fade-in slide-in-from-bottom-10 rounded-none border-t-0 border-r-0 border-l-0 py-8 shadow-none duration-700 ease-in-out ${!isLast ? 'border-border border-b' : 'border-none'}`}
+        className={`bg-background group animate-in fade-in slide-in-from-bottom-10 rounded-none border-t-0 border-r-0 border-l-0 py-8 shadow-none duration-700 ease-in-out ${!isLast ? 'border-border border-b' : 'border-none'}`}
       >
         <div className="flex w-full gap-8">
           <div className="flex w-full flex-col gap-4">
