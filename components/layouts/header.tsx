@@ -11,9 +11,9 @@ export default function Header() {
           <Link href="/" className="hover:text-primary font-medium">
             Posts
           </Link>
-          <Link href="/about" className="hover:text-primary font-medium">
+          {/* <Link href="/about" className="hover:text-primary font-medium">
             About
-          </Link>
+          </Link> */}
         </nav>
       </div>
     </header>
