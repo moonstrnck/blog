@@ -7,18 +7,13 @@ interface PostContentsProps {
 }
 
 export default function PostContents({ markdown }: PostContentsProps) {
+  // https://github.com/talatkuyuk/next-mdx-remote-client-in-app-router/blob/main/app/articles/%5Bslug%5D/page.tsx
   const options: MDXRemoteOptions = {
-    disableImports: true, // import statements in MDX don't work in pages router
+    disableImports: true,
     parseFrontmatter: true,
-    // scope: {
-    //   readingTime: readingTime(markdown, 100).text,
-    //   props: { foo: 'props in scope is working' },
-    // },
-    vfileDataIntoScope: 'toc', // the "remark-flexible-toc" plugin produces vfile.data.toc
+    vfileDataIntoScope: 'toc',
     mdxOptions: {
-      // format,
       ...plugins,
-      // remarkRehypeOptions: format === 'md' ? remarkRehypeOptions : undefined,
     },
   };
 

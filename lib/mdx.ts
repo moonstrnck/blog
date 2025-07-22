@@ -14,7 +14,7 @@ const remarkPlugins: PluggableList = [remarkGfm];
 const rehypePlugins: PluggableList = [
   // rehypeSanitize,
   [rehypeRaw, { passThrough: nodeTypes }], // to allow HTML elements in "md" format, "passThrough" is for "mdx" works as well
-  [rehypePrettyCode, { theme: 'catppuccin-mocha' }],
+  [rehypePrettyCode, { theme: 'slack-dark' }],
   rehypePreLanguage,
   rehypeSlug,
 

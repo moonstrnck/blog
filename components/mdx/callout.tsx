@@ -8,9 +8,11 @@ const Callout = ({
   children: ReactNode;
 }) => {
   const base = {
-    tip: 'bg-blue-50 text-blue-900 border-blue-200',
-    warning: 'bg-yellow-50 text-yellow-900 border-yellow-200',
-    danger: 'bg-red-50 text-red-900 border-red-200',
+    tip: 'bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-200 border-blue-200 dark:border-blue-900',
+    warning:
+      'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-900 dark:text-yellow-200 border-yellow-200 dark:border-yellow-900',
+    danger:
+      'bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-200 border-red-200 dark:border-red-900',
   }[type];
 
   return (

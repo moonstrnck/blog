@@ -21,10 +21,8 @@ const Pre = (props: React.ComponentPropsWithoutRef<'pre'>) => {
       setCopied(false);
     }, 1500);
 
-    // clone the <code> element in order not to cause any change in actual DOM
     const code = preRef.current.getElementsByTagName('code')[0].cloneNode(true);
 
-    // add eol to each code-line since there is no eol at the end when they are div
     Array.from((code as HTMLElement).querySelectorAll('div.code-line')).forEach((line) => {
       line.innerHTML = line.innerHTML + '\r';
     });

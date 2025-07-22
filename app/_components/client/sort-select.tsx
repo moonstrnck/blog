@@ -18,7 +18,7 @@ export default function SortSelect() {
 
   return (
     <Select value={sortOrder} defaultValue="latest" onValueChange={handleSort}>
-      <SelectTrigger className="w-[80px] cursor-pointer border-none p-0 shadow-none focus-visible:border-none focus-visible:ring-0 focus-visible:outline-none">
+      <SelectTrigger className="dark:bg-background dark:hover:bg-background w-[80px] cursor-pointer border-none p-0 shadow-none focus-visible:border-none focus-visible:ring-0 focus-visible:outline-none">
         <SelectValue placeholder="Sort by" />
       </SelectTrigger>
       <SelectContent
