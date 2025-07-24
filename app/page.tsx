@@ -9,7 +9,7 @@ export default async function Home() {
     <div className="container py-8">
       <div className="grid grid-cols-[1fr_240px] gap-8">
         <PostSection />
-        <aside className="h-full">
+        <aside className="relative h-full">
           <TagSection tags={tags} />
         </aside>
       </div>

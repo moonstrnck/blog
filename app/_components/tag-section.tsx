@@ -13,7 +13,7 @@ export default function TagSection({ tags }: Props) {
   const { selectedTag, setSelectedTag } = usePostState();
 
   return (
-    <div className="h-full">
+    <div className="sticky top-[var(--sticky-top)]">
       <h5 className="text-muted-foreground mb-3 flex h-14 items-center text-sm font-medium"></h5>
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (
@@ -21,8 +21,9 @@ export default function TagSection({ tags }: Props) {
             variant="secondary"
             key={tag.id}
             className={cn(
-              selectedTag === tag.id && 'bg-primary text-primary-foreground',
-              'hover:text-secondary-foreground cursor-pointer rounded-full transition-colors duration-200'
+              selectedTag === tag.id &&
+                'bg-[var(--point-background)] text-[var(--point-foreground)] dark:bg-[var(--point-background)] dark:text-[var(--point-foreground)]',
+              'cursor-pointer rounded-full transition-all duration-300 hover:bg-[var(--point-background)] hover:text-[var(--point-foreground)]'
             )}
             onClick={() => setSelectedTag(tag.id)}
           >

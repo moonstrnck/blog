@@ -77,12 +77,20 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --header-height: 3.5rem;
+  --header-height: 5rem;
   --sticky-offset: 1.5rem;
   --sticky-top: calc(var(--header-height) + var(--sticky-offset));
 
+  --point-color: rgb(250, 172, 5);
+
   --code-background: #1e1e2e;
   --code-color: #cdd6f4;
+
+  --badge-background: var(--secondary);
+  --badge-foreground: var(--secondary-foreground);
+
+  --point-background: var(--secondary-foreground);
+  --point-foreground: var(--point-color);
 }
 
 .dark {
@@ -117,6 +125,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  --badge-background: var(--ring);
+  --badge-foreground: var(--secondary-foreground);
+
+  --point-background: rgb(250, 172, 5);
+  --point-foreground: var(--primary-foreground);
 }
 
 @layer base {

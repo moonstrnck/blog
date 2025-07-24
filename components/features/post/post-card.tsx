@@ -17,7 +17,9 @@ export default function PostCard({ post, isLast }: Props) {
         <div className="flex w-full gap-8">
           <div className="flex w-full flex-col gap-4">
             <CardHeader className="p-0">
-              <CardTitle>{post.title}</CardTitle>
+              <CardTitle className="text-md relative transition-all duration-300 ease-in-out group-hover:text-[var(--point-color)]">
+                {post.title}
+              </CardTitle>
               {post.description && <CardDescription>{post.description}</CardDescription>}
             </CardHeader>
             <CardContent className="mt-[auto] p-0">
@@ -46,7 +48,7 @@ export default function PostCard({ post, isLast }: Props) {
               width={150}
               height={100}
               priority={false}
-              className="h-[100px] w-[150px] rounded-md object-cover object-center transition-transform duration-300 group-hover:scale-110"
+              className="h-[100px] w-[150px] rounded-md object-cover object-center transition-transform duration-300 group-hover:scale-120"
             />
           </div>
         </div>
