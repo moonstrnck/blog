@@ -1,7 +1,11 @@
+'use client';
+
 import { Card, CardTitle, CardDescription, CardHeader, CardContent } from '@/components/ui/card';
 import { Post } from '@/types/blog';
 import { formatDate } from '@/lib/date';
 import Image from 'next/image';
+import { AnimatedUnderlineText } from '@/components/common/animated-underline-text';
+import { useState } from 'react';
 
 interface Props {
   post: Post;
@@ -9,17 +13,21 @@ interface Props {
 }
 
 export default function PostCard({ post, isLast }: Props) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <>
       <Card
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         className={`bg-background group animate-in fade-in slide-in-from-bottom-10 rounded-none border-t-0 border-r-0 border-l-0 py-8 shadow-none duration-700 ease-in-out ${!isLast ? 'border-border border-b' : 'border-none'}`}
       >
         <div className="flex w-full gap-8">
           <div className="flex w-full flex-col gap-4">
             <CardHeader className="p-0">
-              <CardTitle className="text-md relative transition-all duration-300 ease-in-out group-hover:text-[var(--point-color)]">
-                {post.title}
-              </CardTitle>
+              <AnimatedUnderlineText isHovered={isHovered} className="text-md">
+                <CardTitle className="text-md">{post.title}</CardTitle>
+              </AnimatedUnderlineText>
               {post.description && <CardDescription>{post.description}</CardDescription>}
             </CardHeader>
             <CardContent className="mt-[auto] p-0">
@@ -43,7 +51,7 @@ export default function PostCard({ post, isLast }: Props) {
           </div>
           <div className="h-[100px] w-[150px] shrink-0 overflow-hidden rounded-md">
             <Image
-              src={post.coverImage || '/images/default-cover.png'}
+              src={post.coverImage || '/images/default-cover.webp'}
               alt={post.title || ''}
               width={150}
               height={100}
