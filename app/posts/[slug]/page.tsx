@@ -25,7 +25,7 @@ export default async function BlogPost({ params }: Props) {
 
   return (
     <article className="container py-12">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-[240px_1fr_240px] md:gap-8">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-[1fr_240px] md:gap-8">
         <section>
           <PostHeader post={post} markdown={markdown} />
           <Separator className="mt-6 mb-6 md:mb-12" />
