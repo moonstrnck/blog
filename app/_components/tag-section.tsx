@@ -13,9 +13,9 @@ export default function TagSection({ tags }: Props) {
   const { selectedTag, setSelectedTag } = usePostState();
 
   return (
-    <div className="sticky top-[var(--sticky-top)]">
-      <h5 className="text-muted-foreground mb-3 flex h-14 items-center text-sm font-medium"></h5>
-      <div className="flex flex-wrap gap-2">
+    <div className="sticky top-[var(--sticky-top)] order-1 my-3 md:order-none md:my-0">
+      <h5 className="text-muted-foreground mb-3 hidden h-14 items-center text-sm font-medium md:block"></h5>
+      <div className="flex flex-wrap justify-center gap-2 md:justify-start">
         {tags.map((tag) => (
           <Badge
             variant="secondary"

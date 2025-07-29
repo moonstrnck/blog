@@ -13,7 +13,7 @@ export default function PostHeader({ post, markdown }: PostHeaderProps) {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h1 className="text-4xl font-bold">{post.title}</h1>
+        <h1 className="text-2xl font-bold md:text-4xl">{post.title}</h1>
         <div className="flex gap-2">
           {post.tags?.map((tag) => (
             <Badge variant="secondary" className="rounded-full text-xs font-normal" key={tag}>

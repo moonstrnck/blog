@@ -24,7 +24,7 @@ function TableOfContentsLink({ item }: { item: TocEntry }) {
   );
 }
 
-async function OnThisPage({ markdown }: { markdown: string }) {
+export async function OnThisPage({ markdown }: { markdown: string }) {
   const { data } = await compile(markdown, {
     rehypePlugins: [...tocPlugins],
   });
@@ -46,4 +46,24 @@ async function OnThisPage({ markdown }: { markdown: string }) {
   );
 }
 
-export default OnThisPage;
+export async function OnThisPageMobile({ markdown }: { markdown: string }) {
+  const { data } = await compile(markdown, {
+    rehypePlugins: [...tocPlugins],
+  });
+  const toc = data?.toc;
+
+  if (!toc) return null;
+
+  return (
+    <div className="sticky top-[var(--sticky-top)] z-10 md:hidden">
+      <details className="details bg-muted/60 rounded-md p-4 backdrop-blur-sm">
+        <summary className="summary cursor-pointer text-sm font-medium">On this page</summary>
+        <nav className="mt-3 space-y-3 text-sm">
+          {data?.toc?.map((item) => (
+            <TableOfContentsLink key={item.id} item={item} />
+          ))}
+        </nav>
+      </details>
+    </div>
+  );
+}

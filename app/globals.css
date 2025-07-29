@@ -149,6 +149,27 @@
   font-family: var(--font-geist-sans);
 }
 
+.details > .summary {
+  position: relative;
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.details > .summary::-webkit-details-marker {
+  display: none;
+}
+
+.details > .summary::before {
+  content: '👉🏻';
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.details[open] > .summary::before {
+  content: '👇🏻';
+}
+
 pre {
   padding: 1rem;
 

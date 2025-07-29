@@ -22,7 +22,7 @@ export default function PostCard({ post, isLast }: Props) {
         onMouseLeave={() => setIsHovered(false)}
         className={`bg-background group animate-in fade-in slide-in-from-bottom-10 rounded-none border-t-0 border-r-0 border-l-0 py-8 shadow-none duration-700 ease-in-out ${!isLast ? 'border-border border-b' : 'border-none'}`}
       >
-        <div className="flex w-full gap-8">
+        <div className="flex w-full flex-col-reverse gap-8 md:flex-row">
           <div className="flex w-full flex-col gap-4">
             <CardHeader className="p-0">
               <AnimatedUnderlineText isHovered={isHovered} className="text-md">
@@ -49,14 +49,14 @@ export default function PostCard({ post, isLast }: Props) {
               </div>
             </CardContent>
           </div>
-          <div className="h-[100px] w-[150px] shrink-0 overflow-hidden rounded-md">
+          <div className="h-[250px] w-full shrink-0 overflow-hidden rounded-md md:h-[100px] md:w-[150px]">
             <Image
               src={post.coverImage || '/images/default-cover.webp'}
               alt={post.title || ''}
               width={150}
               height={100}
               priority={false}
-              className="h-[100px] w-[150px] rounded-md object-cover object-center transition-transform duration-300 group-hover:scale-120"
+              className="h-[inherit] w-[inherit] rounded-md object-cover object-center transition-transform duration-300 group-hover:scale-120"
             />
           </div>
         </div>

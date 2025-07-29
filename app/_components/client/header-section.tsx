@@ -8,7 +8,7 @@ export default function HeaderSection() {
 
   return (
     <div className="flex items-center justify-between">
-      <h2 className="text-3xl font-bold tracking-tight">
+      <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
         {selectedTag === 'all' ? 'Posts' : `#${selectedTag}`}
       </h2>
       <SortSelect />
