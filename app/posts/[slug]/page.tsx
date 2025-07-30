@@ -5,6 +5,7 @@ import PostHeader from './_components/post-header';
 import PostContents from './_components/post-contents';
 import PostNav from './_components/post-nav';
 import { OnThisPage, OnThisPageMobile } from './_components/table-of-contents-link';
+import notFound from './not-found';
 
 export async function generateStaticParams() {
   const posts = await getAllPublishedPosts();
@@ -23,11 +24,15 @@ export default async function BlogPost({ params }: Props) {
   const { markdown, post } = await getPostBySlug(slug);
   const { prevPost, nextPost } = await getPrevNextPosts(slug);
 
+  if (!post) {
+    return notFound();
+  }
+
   return (
     <article className="container py-12">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-[1fr_240px] md:gap-8">
         <section>
-          <PostHeader post={post} markdown={markdown} />
+          {post && <PostHeader post={post} markdown={markdown} />}
           <Separator className="mt-6 mb-6 md:mb-12" />
           <OnThisPageMobile markdown={markdown} />
           <PostContents markdown={markdown} />
