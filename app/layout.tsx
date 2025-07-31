@@ -23,8 +23,27 @@ const notoSansKR = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: 'moonstrnck',
-  description: 'moonstrnck',
+  title: 'shmoon.dev',
+  description: '문승휘 블로그',
+  creator: 'shmoon',
+  openGraph: {
+    title: `shmoon.dev`,
+    description: '문승휘 블로그',
+    url: 'https://shmoon.dev',
+    siteName: 'shmoon.dev',
+    images: [
+      {
+        url: 'https://shmoon.dev/images/open-graph.webp',
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: 'ko_KR',
+    type: 'website',
+  },
+  verification: {
+    google: 'dZurkD4UZYwzyBVjCDQ1jh3M3GBgWT60TonM8vJzMeo',
+  },
 };
 
 export default function RootLayout({

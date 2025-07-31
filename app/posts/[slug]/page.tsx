@@ -6,6 +6,11 @@ import PostContents from './_components/post-contents';
 import PostNav from './_components/post-nav';
 import { OnThisPage, OnThisPageMobile } from './_components/table-of-contents-link';
 import notFound from './not-found';
+import { Metadata } from 'next';
+
+interface Props {
+  params: Promise<{ slug: string }>;
+}
 
 export async function generateStaticParams() {
   const posts = await getAllPublishedPosts();
@@ -15,8 +20,26 @@ export async function generateStaticParams() {
   }));
 }
 
-interface Props {
-  params: Promise<{ slug: string }>;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const { post } = await getPostBySlug(slug);
+
+  const title = post?.title || 'shmoon.dev';
+  const description = post?.description || '문승휘 블로그';
+  const thumbnailUrl = post?.coverImage || 'https://shmoon.dev/images/open-graph.webp';
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [thumbnailUrl],
+    },
+    verification: {
+      google: 'dZurkD4UZYwzyBVjCDQ1jh3M3GBgWT60TonM8vJzMeo',
+    },
+  };
 }
 
 export default async function BlogPost({ params }: Props) {
