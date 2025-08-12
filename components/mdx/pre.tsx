@@ -2,8 +2,8 @@
 
 import React, { type ElementRef, useRef, useState } from 'react';
 
-import IconContentCopy from '@/components/icons/icon-copy';
-import IconDone from '@/components/icons/icon-done';
+import IconCopy from '@/assets/icons/icon-copy.svg';
+import IconDone from '@/assets/icons/icon-done.svg';
 
 const Pre = (props: React.ComponentPropsWithoutRef<'pre'>) => {
   const preRef = useRef<ElementRef<'pre'>>(null);
@@ -37,7 +37,7 @@ const Pre = (props: React.ComponentPropsWithoutRef<'pre'>) => {
         {copied ? (
           <IconDone fill="var(--secondary-foreground)" width="12px" height="12px" />
         ) : (
-          <IconContentCopy fill="var(--secondary-foreground)" width="12px" height="12px" />
+          <IconCopy fill="var(--secondary-foreground)" width="12px" height="12px" />
         )}
       </button>
       {children}

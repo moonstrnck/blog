@@ -1,11 +1,8 @@
-'use client';
-
 import { Card, CardTitle, CardDescription, CardHeader, CardContent } from '@/components/ui/card';
 import { Post } from '@/types/blog';
 import { formatDate } from '@/lib/date';
 import Image from 'next/image';
-import { AnimatedUnderlineText } from '@/components/common/animated-underline-text';
-import { useState } from 'react';
+import AnimatedArrowUpRight from '@/components/common/animated-arrow-up-right';
 
 interface Props {
   post: Post;
@@ -13,54 +10,48 @@ interface Props {
 }
 
 export default function PostCard({ post, isLast }: Props) {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <>
-      <Card
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className={`bg-background group animate-in fade-in slide-in-from-bottom-10 rounded-none border-t-0 border-r-0 border-l-0 py-8 shadow-none duration-700 ease-in-out ${!isLast ? 'border-border border-b' : 'border-none'}`}
-      >
-        <div className="flex w-full flex-col-reverse gap-8 md:flex-row">
-          <div className="flex w-full flex-col gap-4">
-            <CardHeader className="p-0">
-              <AnimatedUnderlineText isHovered={isHovered} className="text-md">
-                <CardTitle className="text-md">{post.title}</CardTitle>
-              </AnimatedUnderlineText>
-              {post.description && <CardDescription>{post.description}</CardDescription>}
-            </CardHeader>
-            <CardContent className="mt-[auto] p-0">
-              <div className="text-muted-foreground flex items-center gap-x-4 text-sm">
-                <div className="flex items-center gap-x-4">
-                  {post.createdAt && (
-                    <time className="text-muted-foreground text-xs">
-                      {formatDate(post.createdAt)}
-                    </time>
-                  )}
-                  <div className="flex items-center gap-x-2">
-                    {post.tags?.map((tag) => (
-                      <span key={tag} className="text-primary text-xs">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
+    <Card
+      className={`bg-background group animate-in fade-in slide-in-from-bottom-10 rounded-none border-t-0 border-r-0 border-l-0 py-8 shadow-none duration-700 ease-in-out ${!isLast ? 'border-border border-b' : 'border-none'}`}
+    >
+      <div className="flex w-full flex-col-reverse gap-8 md:flex-row">
+        <div className="flex w-full flex-col gap-4">
+          <CardHeader className="p-0">
+            <CardTitle className="text-md flex items-center gap-x-1">
+              {post.title} <AnimatedArrowUpRight />
+            </CardTitle>
+            {post.description && <CardDescription>{post.description}</CardDescription>}
+          </CardHeader>
+          <CardContent className="mt-[auto] p-0">
+            <div className="text-muted-foreground flex items-center gap-x-4 text-sm">
+              <div className="flex items-center gap-x-4">
+                {post.createdAt && (
+                  <time className="text-muted-foreground text-xs">
+                    {formatDate(post.createdAt)}
+                  </time>
+                )}
+                <div className="flex items-center gap-x-2">
+                  {post.tags?.map((tag) => (
+                    <span key={tag} className="text-primary text-xs">
+                      #{tag}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </CardContent>
-          </div>
-          <div className="h-[250px] w-full shrink-0 overflow-hidden rounded-md md:h-[100px] md:w-[150px]">
-            <Image
-              src={post.coverImage || '/images/default-cover.webp'}
-              alt={post.title || ''}
-              width={150}
-              height={100}
-              priority={false}
-              className="h-[inherit] w-[inherit] rounded-md object-cover object-center transition-transform duration-300 group-hover:scale-120"
-            />
-          </div>
+            </div>
+          </CardContent>
         </div>
-      </Card>
-    </>
+        <div className="h-[250px] w-full shrink-0 overflow-hidden rounded-md md:h-[100px] md:w-[150px]">
+          <Image
+            src={post.coverImage || '/images/default-cover.webp'}
+            alt={post.title || ''}
+            width={150}
+            height={100}
+            priority={false}
+            className="transition-smooth h-[inherit] w-[inherit] rounded-md object-cover object-center group-hover:scale-120"
+          />
+        </div>
+      </div>
+    </Card>
   );
 }

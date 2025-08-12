@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Noto_Sans_KR } from 'next/font/google';
+import { Geist, Geist_Mono, Noto_Sans_KR, Poppins } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layouts/header';
 import Footer from '@/components/layouts/footer';
@@ -20,6 +20,12 @@ const geistMono = Geist_Mono({
 const notoSansKR = Noto_Sans_KR({
   variable: '--font-noto-sans-kr',
   subsets: ['latin'],
+});
+
+const poppins = Poppins({
+  variable: '--font-poppins',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -54,7 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${notoSansKR.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${notoSansKR.variable} ${poppins.variable} antialiased`}
       >
         <Providers>
           <div className="flex min-h-screen flex-col">

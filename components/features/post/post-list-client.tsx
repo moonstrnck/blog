@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import PostCard from './post-card';
-import PostPaginationClient from './post-pagination-client';
+import PostPagination from './post-pagination';
 import { usePostState } from '@/store/use-post-state';
 import type { Post } from '@/types/blog';
 import { POST_PER_PAGE } from '@/contants';
@@ -55,7 +55,7 @@ export default function PostListClient({ posts }: Props) {
         ))}
       </div>
 
-      <PostPaginationClient
+      <PostPagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
