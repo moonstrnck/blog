@@ -39,7 +39,7 @@ const eslintConfig = [
           caughtErrorsIgnorePattern: '^_',
         },
       ],
-      'no-console': 'warn',
+      'no-console': ['warn', { allow: ['error'] }],
     },
   },
   eslintConfigPrettier,

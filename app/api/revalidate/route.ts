@@ -45,7 +45,6 @@ export async function POST(request: NextRequest) {
       revalidatedPaths: [`/posts/${slug}`, '/'],
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Revalidation error:', error);
 
     return Response.json({
