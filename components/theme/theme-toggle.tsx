@@ -3,6 +3,7 @@
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -23,8 +24,16 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       aria-label="Toggle theme"
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+      <motion.div
+        key={theme}
+        className="relative flex h-full w-full items-center justify-center"
+        initial={{ rotate: -180, opacity: 0 }}
+        animate={{ rotate: 0, opacity: 1 }}
+        transition={{ duration: 0.3, ease: [0.36, 0.2, 0.07, 1] }}
+      >
+        <Sun className="h-[1.2rem] w-[1.2rem] scale-100 transition-all dark:scale-0" />
+        <Moon className="absolute top-1/2 left-1/2 h-[1.2rem] w-[1.2rem] -translate-x-1/2 -translate-y-1/2 scale-0 transition-all dark:scale-100" />
+      </motion.div>
     </Button>
   );
 }
