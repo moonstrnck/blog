@@ -37,6 +37,9 @@ const nextConfig: NextConfig = {
       {
         hostname: 'www.notion.so',
       },
+      {
+        hostname: 'res.cloudinary.com',
+      },
     ],
   },
 };
