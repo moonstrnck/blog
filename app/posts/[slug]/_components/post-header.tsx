@@ -12,8 +12,8 @@ interface PostHeaderProps {
 export default function PostHeader({ post, markdown }: PostHeaderProps) {
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-medium md:text-4xl">{post.title}</h1>
+      <div className="flex flex-col gap-4">
+        <h1 className="post-header-title text-2xl md:text-4xl">{post.title}</h1>
         <div className="flex gap-2">
           {post.tags?.map((tag) => (
             <Badge variant="secondary" className="rounded-full text-xs font-normal" key={tag}>

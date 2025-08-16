@@ -170,6 +170,24 @@ h6 {
   font-weight: 500;
 }
 
+h1.post-header-title {
+  font-weight: 600;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+prose h6 {
+  font-family: var(--font-poppins);
+  font-weight: 600;
+}
+
+a {
+  margin: 0 0.5rem;
+}
+
 .details > .summary {
   position: relative;
   list-style-type: none;
