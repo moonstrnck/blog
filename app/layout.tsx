@@ -5,7 +5,7 @@ import Header from '@/components/layouts/header';
 import Footer from '@/components/layouts/footer';
 import Providers from '@/app/providers';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from '@vercel/analytics/next';
+import Analytics from '@/app/analytics';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
