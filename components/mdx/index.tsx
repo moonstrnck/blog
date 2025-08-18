@@ -12,6 +12,7 @@ export const components: MDXComponents = {
   wrapper: (props: React.ComponentPropsWithoutRef<'div'>) => {
     return <div id="mdx-layout">{props.children}</div>;
   },
+  a: (props: React.ComponentPropsWithoutRef<'a'>) => <a {...props} target="_blank" />,
   Image,
   Link,
   pre: Pre,

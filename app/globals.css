@@ -184,8 +184,19 @@ prose h6 {
   font-weight: 600;
 }
 
-a {
-  margin: 0 0.5rem;
+.prose ol {
+  padding-left: 0.8rem;
+}
+
+.prose a {
+  margin: 0 0.25rem;
+  color: var(--point-color);
+  text-decoration: none;
+}
+
+.prose .callout a {
+  margin: 0 0.25rem;
+  color: var(--point-color);
 }
 
 .details > .summary {

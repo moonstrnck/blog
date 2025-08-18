@@ -10,6 +10,8 @@ import { NotionToMarkdown } from 'notion-to-md';
 import type { MdBlock } from 'notion-to-md/build/types';
 import { POST_CONTENTS } from '@/contants';
 import { unstable_cache } from 'next/cache';
+import { cache } from 'react';
+import { uploadNotionImageToCloudinary } from './cloudinary';
 
 export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -19,8 +21,6 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
 /**
  * 게시글 목록 조회
  */
-import { cache } from 'react';
-import { uploadNotionImageToCloudinary } from './cloudinary';
 
 export const getAllPublishedPosts = cache(async () => {
   const response = await notion.databases.query({
@@ -202,12 +202,7 @@ async function processNotionBlocks(blocks: MdBlock[], slug: string): Promise<MdB
     }
   }
 
-  return processedBlocks.map((block) => {
-    if (block.type === 'paragraph' && block.parent) {
-      block.parent = block.parent.replace(/\n/g, '<br/>');
-    }
-    return block;
-  });
+  return processedBlocks;
 }
 
 /**
