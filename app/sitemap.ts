@@ -1,16 +1,6 @@
 import { MetadataRoute } from 'next';
-import { getAllPublishedPosts } from '@/lib/notion';
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getAllPublishedPosts();
-
-  const postUrls: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: `https://shmoon.dev/${post.slug}`,
-    lastModified: new Date(post.modifiedAt || post.createdAt || new Date()),
-    changeFrequency: 'daily',
-    priority: 0.8,
-  }));
-
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: 'https://shmoon.dev',
@@ -24,6 +14,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 0.9,
     },
-    ...postUrls,
   ];
 }
