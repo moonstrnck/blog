@@ -23,7 +23,7 @@ export default function TagSection({ tags }: Props) {
             className={cn(
               selectedTag === tag.id &&
                 'bg-[var(--point-background)] text-[var(--point-foreground)] dark:bg-[var(--point-background)] dark:text-[var(--point-foreground)]',
-              'transition-smooth cursor-pointer rounded-full hover:bg-[var(--point-background)] hover:text-[var(--point-foreground)]'
+              'transition-smooth cursor-pointer rounded-full transition-all duration-400 hover:bg-[var(--point-background)] hover:text-[var(--point-foreground)]'
             )}
             onClick={() => setSelectedTag(tag.id)}
           >

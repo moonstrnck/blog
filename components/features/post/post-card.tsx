@@ -48,7 +48,7 @@ export default function PostCard({ post, isLast }: Props) {
             width={150}
             height={100}
             priority={false}
-            className="transition-smooth h-[inherit] w-[inherit] rounded-md object-cover object-center group-hover:scale-120"
+            className="transition-smooth h-[inherit] w-[inherit] rounded-md object-cover object-center transition-transform duration-400 group-hover:scale-120"
           />
         </div>
       </div>

@@ -55,7 +55,7 @@ export async function OnThisPageMobile({ markdown }: { markdown: string }) {
   if (!toc) return null;
 
   return (
-    <div className="sticky top-[var(--sticky-top)] z-10 md:hidden">
+    <div className="md:hidden">
       <details className="details bg-muted/60 rounded-md p-4 backdrop-blur-sm">
         <summary className="summary cursor-pointer text-sm font-medium">On this page</summary>
         <nav className="mt-3 space-y-3 text-sm">

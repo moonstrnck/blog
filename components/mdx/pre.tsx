@@ -32,7 +32,7 @@ const Pre = (props: React.ComponentPropsWithoutRef<'pre'>) => {
 
   return (
     <pre ref={preRef} {...rest}>
-      <span className="pre-language-label">{language}</span>
+      <span className="pre-language-label hidden md:block">{language}</span>
       <button className="pre-copy-button" onClick={onCopy}>
         {copied ? (
           <IconDone fill="var(--secondary-foreground)" width="12px" height="12px" />

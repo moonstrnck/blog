@@ -78,9 +78,10 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --header-height: 5rem;
+  --header-height: 4.5rem;
   --sticky-offset: 1.5rem;
   --sticky-top: calc(var(--header-height) + var(--sticky-offset));
+  --sticky-top-mobile: calc(var(--header-height) + var(--sticky-offset));
 
   --point-color: rgb(250, 172, 5);
 
@@ -145,7 +146,7 @@
 
 @layer utilities {
   .transition-smooth {
-    transition: all 400ms cubic-bezier(0.36, 0.2, 0.07, 1);
+    transition-timing-function: cubic-bezier(0.36, 0.2, 0.07, 1);
   }
 }
 
@@ -197,6 +198,10 @@ prose h6 {
 .prose .callout a {
   margin: 0 0.25rem;
   color: var(--point-color);
+}
+
+.prose .callout strong {
+  color: inherit;
 }
 
 .details > .summary {

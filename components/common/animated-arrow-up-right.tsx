@@ -7,17 +7,14 @@ interface Props {
 
 export default function AnimatedArrowUpRight({ size = 16, className = '' }: Props) {
   return (
-    <div
-      className={`transition-smooth relative overflow-hidden ${className}`}
-      style={{ width: size, height: size }}
-    >
+    <div className={`relative overflow-hidden ${className}`} style={{ width: size, height: size }}>
       <ArrowUpRight
         size={size}
-        className="transition-smooth absolute inset-0 group-hover:translate-x-full group-hover:-translate-y-full"
+        className="transition-smooth absolute inset-0 transition-transform duration-400 group-hover:translate-x-full group-hover:-translate-y-full"
       />
       <ArrowUpRight
         size={size}
-        className="transition-smooth absolute inset-0 -translate-x-full translate-y-full group-hover:translate-x-0 group-hover:translate-y-0"
+        className="transition-smooth absolute inset-0 -translate-x-full translate-y-full transition-transform duration-400 group-hover:translate-x-0 group-hover:translate-y-0"
       />
     </div>
   );

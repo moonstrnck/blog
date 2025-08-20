@@ -167,7 +167,7 @@ async function getPostMetadata(page: PageObjectResponse): Promise<Post> {
 }
 
 /**
- * 마크다운 블록 내 이미지 Block 처리 + paragraph 줄내림 처리
+ * 마크다운 블록 내 이미지 Block 처리
  */
 async function processNotionBlocks(blocks: MdBlock[], slug: string): Promise<MdBlock[]> {
   let imageIndex = 0;
