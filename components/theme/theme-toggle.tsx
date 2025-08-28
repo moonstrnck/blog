@@ -18,9 +18,9 @@ export function ThemeToggle() {
 
   return (
     <Button
-      variant="ghost"
+      variant="link"
       size="icon"
-      className="h-9 w-9 cursor-pointer rounded-md"
+      className="group h-9 w-9 cursor-pointer rounded-md"
       onClick={toggleTheme}
       aria-label="Toggle theme"
     >
@@ -31,8 +31,8 @@ export function ThemeToggle() {
         animate={{ rotate: 0, opacity: 1 }}
         transition={{ duration: 0.3, ease: [0.36, 0.2, 0.07, 1] }}
       >
-        <Sun className="h-[1.2rem] w-[1.2rem] scale-100 transition-all dark:scale-0" />
-        <Moon className="absolute top-1/2 left-1/2 h-[1.2rem] w-[1.2rem] -translate-x-1/2 -translate-y-1/2 scale-0 transition-all dark:scale-100" />
+        <Sun className="group-hover:text-point transition-smooth h-[1.2rem] w-[1.2rem] scale-100 transition-colors duration-200 dark:scale-0" />
+        <Moon className="group-hover:text-point transition-smooth absolute top-1/2 left-1/2 h-[1.2rem] w-[1.2rem] -translate-x-1/2 -translate-y-1/2 scale-0 transition-colors duration-200 dark:scale-100" />
       </motion.div>
     </Button>
   );

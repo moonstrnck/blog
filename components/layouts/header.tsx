@@ -22,7 +22,10 @@ export default function Header() {
           /&gt;
         </Link>
         <nav className="ml-auto flex items-center gap-4">
-          <Link href="/" className="hover:text-primary font-medium">
+          <Link
+            href="/"
+            className="hover:text-point transition-smooth font-medium transition-colors duration-200"
+          >
             Posts
           </Link>
           {/* <Link href="/about" className="hover:text-primary font-medium">

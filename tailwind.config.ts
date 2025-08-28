@@ -11,6 +11,9 @@ const config: Config = {
         mono: ['var(--font-geist-mono)', 'monospace'],
         poppins: ['var(--font-poppins)', 'sans-serif'],
       },
+      colors: {
+        point: 'var(--point-color)',
+      },
     },
   },
   plugins: [],
