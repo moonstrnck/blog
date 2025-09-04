@@ -23,7 +23,7 @@ export default function Footer() {
             <AtSign className="text-muted-foreground group-hover:text-foreground transition-smooth h-4 w-4 duration-200" />
           </Link>
         </div>
-        <p className="text-muted-foreground text-sm">moonstrnck • © {new Date().getFullYear()}</p>
+        <p className="text-muted-foreground text-sm">shmoon • © {new Date().getFullYear()}</p>
       </div>
     </footer>
   );
