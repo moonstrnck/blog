@@ -6,7 +6,7 @@ export default async function Home() {
   const tags = await getAllTags();
 
   return (
-    <div className="container py-18">
+    <div className="container py-8 md:py-18">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr_240px]">
         <PostSection />
         <aside className="relative h-full">
