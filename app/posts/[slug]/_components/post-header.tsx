@@ -14,7 +14,7 @@ export default function PostHeader({ post, markdown }: PostHeaderProps) {
     <div className="space-y-8">
       <div className="flex flex-col gap-4">
         <h1 className="post-header-title text-2xl md:text-4xl">{post.title}</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {post.tags?.map((tag) => (
             <Badge variant="secondary" className="rounded-full text-xs font-normal" key={tag}>
               {tag}
@@ -34,12 +34,14 @@ export default function PostHeader({ post, markdown }: PostHeaderProps) {
         {post.createdAt && (
           <div className="flex items-center gap-2">
             <span>·</span>
-            <time className="text-muted-foreground">{formatDate(post.createdAt)}</time>
+            <time className="text-muted-foreground text-nowrap">{formatDate(post.createdAt)}</time>
           </div>
         )}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 overflow-hidden">
           <span>·</span>
-          <span>{readingTime(markdown, 100).text}</span>
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+            {readingTime(markdown, 100).text}
+          </span>
         </div>
       </div>
     </div>
