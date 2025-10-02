@@ -182,15 +182,15 @@ h1.post-header-title {
 .prose h5,
 prose h6 {
   font-family: var(--font-poppins);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .prose h2 {
-  font-size: 2rem;
+  font-size: 1.9rem;
 }
 
 .prose h3 {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
 }
 
 .prose ol {
